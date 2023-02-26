@@ -1,4 +1,4 @@
-const movie = require('../models/movie'); // импортируем модель(схему) юзера
+const movie = require('../models/movie'); // импортируем модель(схему) юзера;
 
 // Импорт классов ошибок
 const BAD_REQUEST_M = require('../utils/mist/BAD_REQUEST');
