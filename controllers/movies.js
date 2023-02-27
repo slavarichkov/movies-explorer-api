@@ -9,7 +9,7 @@ const CONFLICT_M = require('../utils/mist/CONFLICT');
 const { OK } = require('../utils/constant');
 
 const getAllMovies = (req, res) => { // возвращает все сохранённые текущим  пользователем фильмы
-  movie.find({ _id: req.user._id }) // поиск всех фильмов в бд по айди юзера
+  movie.find({ owner: req.user._id }) // поиск всех фильмов в бд по айди юзера
     .then((movies) => res.status(OK).json(movies))
     .catch(() => new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
 };
