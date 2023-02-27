@@ -14,16 +14,16 @@ const { createUser, login } = require('./controllers/users'); // импорти�
 const errorHandling = require('./middlewares/errorHandling'); // импортируем централизованный обработчик ошибок
 require('dotenv').config(); // подключить ENV
 
-const { PORT = 3000 } = process.env;
+const { NODE_ENV, PORT, HOST_MONGODB } = process.env;
 
 const app = express();
 
 mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто в false не строгое соотв схеме
 
 // подключаемся к mongo и затем к серверу
-mongoose.connect('mongodb://127.0.0.1/bitfilmsdb', () => {
+mongoose.connect(NODE_ENV === 'production' ? HOST_MONGODB : 'mongodb://127.0.0.1/bitfilmsdb', () => {
   console.log('DB OK');
-  app.listen(PORT, () => {
+  app.listen(NODE_ENV === 'production' ? PORT : 3000, () => {
     console.log(`App listening on port ${PORT}`);
   });
 })
