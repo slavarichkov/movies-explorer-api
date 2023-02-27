@@ -4,8 +4,10 @@ const process = require('process');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate'); // Валидация приходящих на сервер данных
+const helmet = require('helmet'); // заголовки безопасности можно проставлять автоматически.
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // логгеры
 
+const limiter = require('./utils/limiter/limiter'); // ограничивает количество запросов с одного IP-адреса в единицу времени.
 const usersRouters = require('./routes/users'); // роутеры юзеров
 const moviesRouters = require('./routes/movies'); // роутеры фильмов
 const auth = require('./middlewares/auth'); // импортируем авторизацию пользователя
@@ -30,6 +32,9 @@ mongoose.connect(NODE_ENV === 'production' ? HOST_MONGODB : 'mongodb://127.0.0.1
   .catch((err) => console.log(err));
 
 // мидлверы
+app.use(limiter); // ограничивает количество запросов с одного IP-адреса в единицу времени.
+app.use(helmet());
+
 app.use(cookieParser()); // для работы с куки, хранить токен
 app.use(bodyParser.json());
 app.use(requestLogger); // подключаем логгер запросов
