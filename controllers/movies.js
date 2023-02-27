@@ -30,6 +30,7 @@ const createMovie = (req, res, next) => { // создать фильм
     trailerLink,
   } = req.body; // получим из объекта запроса данные для фильма
   const owner = req.user._id; // получить айди юзера
+  console.log(owner);
   movie.create({
     country,
     director,
