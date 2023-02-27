@@ -66,7 +66,9 @@ const updateUser = (req, res, next) => { // обновить информаци�
 
   ).then((updateData) => res.status(OK).send({ data: updateData }))
     .catch((err) => {
-      if ((err.name === 'ValidationError')) {
+      if (err.code === 11000) { // проверить существует ли пользователь c таким email
+        next(new CONFLICT_M('Пользователь с таким Email уже существует'));
+      } else if ((err.name === 'ValidationError')) {
         next(new BAD_REQUEST_M('Переданы некорректные данные'));
       } else { next(err); }
     });
