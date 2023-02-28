@@ -10,7 +10,7 @@ router.get('/users/me', getUserSelf); // возвращает информаци
 
 router.patch('/users/me', celebrate({ // обновляет информацию о пользователе (email и имя)
   body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
-    name: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().pattern(/^[^@]+@[^@.]+\.[^@]+$/).required(),
   }),
 }), updateUser);
