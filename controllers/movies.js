@@ -51,9 +51,8 @@ const createMovie = (req, res, next) => { // создать фильм
         movieId,
         owner,
         trailer,
-      });
+      }).then((newMovie) => res.status(OK).send(newMovie));
     })
-    .then((newMovie) => res.status(OK).send(newMovie))
     .catch((err) => {
       console.log(err);
       if (err.name === 'ValidationError') { // проверить валидацию отправленных данных
