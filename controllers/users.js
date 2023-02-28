@@ -107,11 +107,8 @@ const login = (req, res, next) => { // получает из запроса по
     });
 };
 
-const logout = function (req, res, next) {
-  const { _id } = req.user;
-  user.findById(_id).then(() => {
-    res.status(OK).clearCookie('auth-token').send({ message: 'cookie cleared' });
-  })
+const logout = (req, res, next) => {
+  res.status(OK).clearCookie('jwt').send({ message: 'cookie cleared' })
     .catch((err) => {
       next(err);
     });
