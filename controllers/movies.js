@@ -30,27 +30,33 @@ const createMovie = (req, res, next) => { // создать фильм
     trailerLink,
   } = req.body; // получим из объекта запроса данные для фильма
   const owner = req.user._id; // получить айди юзера
-  console.log(owner);
-  movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-    owner,
-    trailer,
-  }) // создать карточку в бд
+  movie.find({ owner: req.user._id }) // найти все фильмы юзера
+    .then((movies) => {
+      movies.forEach((element) => { // проверить название на уникальность
+        if (element.nameRU === nameRU || element.nameEN === nameEN) {
+          throw new CONFLICT_M('Фильм с таким названием уже добавлен');
+        }
+      });
+      movie.create({ // создать карточку в бд
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        nameRU,
+        nameEN,
+        thumbnail,
+        movieId,
+        owner,
+        trailer,
+      });
+    })
     .then((newMovie) => res.status(OK).send(newMovie))
     .catch((err) => {
-      if (err.code === 11000) { // проверить существует ли уже фильм
-        next(new CONFLICT_M('Фильм с таким названием уже добавлен'));
-      } else if (err.name === 'ValidationError') { // проверить валидацию отправленных данных
+      console.log(err);
+      if (err.name === 'ValidationError') { // проверить валидацию отправленных данных
         next(new BAD_REQUEST_M('Переданы некорректные данные'));
       } else { next(err); } // завершить выполнение кода
     })
