@@ -3,7 +3,7 @@ const mongoose = require('mongoose'); // БД
 const process = require('process');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { errors } = require('celebrate'); // Валидация приходящих на сервер данных
+const { errors } = require('celebrate'); // валидация приходящих на сервер данных
 const helmet = require('helmet'); // заголовки безопасности можно проставлять автоматически.
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // логгеры
 
@@ -33,12 +33,11 @@ mongoose.connect(NODE_ENV === 'production' ? HOST_MONGODB : 'mongodb://127.0.0.1
   .catch((err) => console.log(err));
 
 // мидлверы
-app.use(limiter); // ограничивает количество запросов с одного IP-адреса в единицу времени.
-app.use(helmet());
-
 app.use(cookieParser()); // для работы с куки, хранить токен
 app.use(bodyParser.json());
 app.use(requestLogger); // подключаем логгер запросов
+app.use(helmet());
+app.use(limiter); // ограничивает количество запросов с одного IP-адреса в единицу времени.
 
 // роуты, не требуещие авторизации
 app.post('/signup', validationUserCreate, createUser); // создать пользователя
