@@ -3,7 +3,7 @@ const mongoose = require('mongoose'); // БД
 const process = require('process');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { errors, celebrate, Joi } = require('celebrate'); // Валидация приходящих на сервер данных
+const { errors } = require('celebrate'); // Валидация приходящих на сервер данных
 const helmet = require('helmet'); // заголовки безопасности можно проставлять автоматически.
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // логгеры
 
@@ -14,6 +14,7 @@ const auth = require('./middlewares/auth'); // импортируем автор
 const NOT_FOUND_M = require('./utils/mist/NOT_FOUND'); // импорт класса ошибки
 const { createUser, login } = require('./controllers/users'); // импортируем контроллеры пользователей
 const errorHandling = require('./middlewares/errorHandling'); // импортируем централизованный обработчик ошибок
+const { validationUserCreate, validationUserSignin } = require('./utils/validation/validation'); // импортируем валидацию celebrate
 require('dotenv').config(); // подключить ENV
 
 const { NODE_ENV, PORT, HOST_MONGODB } = process.env;
@@ -40,20 +41,8 @@ app.use(bodyParser.json());
 app.use(requestLogger); // подключаем логгер запросов
 
 // роуты, не требуещие авторизации
-app.post('/signup', celebrate({ // создать пользователя
-  body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
-    name: Joi.string().min(2).max(30).required(),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
-
-app.post('/signin', celebrate({ // авторизовать пользователя
-  body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+app.post('/signup', validationUserCreate, createUser); // создать пользователя
+app.post('/signin', validationUserSignin, login); // авторизация пользователя
 
 // защитить роуты ниже авторизацией
 app.use(auth);
