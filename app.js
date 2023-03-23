@@ -14,6 +14,7 @@ const auth = require('./middlewares/auth'); // импортируем автор
 const NOT_FOUND_M = require('./utils/mist/NOT_FOUND'); // импорт класса ошибки
 const { createUser, login } = require('./controllers/users'); // импортируем контроллеры пользователей
 const errorHandling = require('./middlewares/errorHandling'); // импортируем централизованный обработчик ошибок
+const { corsSimple, corsMultiPart } = require('./middlewares/cors'); // импортируем корс
 const { validationUserCreate, validationUserSignin } = require('./utils/validation/validation'); // импортируем валидацию celebrate
 require('dotenv').config(); // подключить ENV
 
@@ -42,6 +43,8 @@ app.use(limiter); // ограничивает количество запрос�
 // роуты, не требуещие авторизации
 app.post('/signup', validationUserCreate, createUser); // создать пользователя
 app.post('/signin', validationUserSignin, login); // авторизация пользователя
+app.use(corsSimple); // cors простой
+app.use(corsMultiPart); // cors сложный
 
 // защитить роуты ниже авторизацией
 app.use(auth);
