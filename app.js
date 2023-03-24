@@ -27,7 +27,7 @@ mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто 
 // подключаемся к mongo и затем к серверу
 mongoose.connect(NODE_ENV === 'production' ? HOST_MONGODB : 'mongodb://127.0.0.1/bitfilmsdb', () => {
   console.log('DB OK');
-  app.listen(NODE_ENV === 'production' ? PORT : 3000, () => {
+  app.listen(NODE_ENV === 'production' ? PORT : 3001, () => {
     console.log(`App listening on port ${PORT}`);
   });
 })
@@ -40,11 +40,12 @@ app.use(requestLogger); // подключаем логгер запросов
 app.use(helmet());
 app.use(limiter); // ограничивает количество запросов с одного IP-адреса в единицу времени.
 
+app.use(corsSimple); // cors простой
+app.use(corsMultiPart); // cors сложный
+
 // роуты, не требуещие авторизации
 app.post('/signup', validationUserCreate, createUser); // создать пользователя
 app.post('/signin', validationUserSignin, login); // авторизация пользователя
-app.use(corsSimple); // cors простой
-app.use(corsMultiPart); // cors сложный
 
 // защитить роуты ниже авторизацией
 app.use(auth);

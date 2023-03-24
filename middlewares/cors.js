@@ -1,8 +1,8 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
   'localhost:3000',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 function corsSimple(req, res, next) { // простые CORS-запросы
@@ -10,6 +10,7 @@ function corsSimple(req, res, next) { // простые CORS-запросы
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
   }
   next();
 }
@@ -28,6 +29,7 @@ function corsMultiPart(req, res, next) { // сложные CORS-запросы
   if (method === 'OPTIONS') {
     // разрешаем кросс-доменные запросы с этими заголовками
     res.header('Access-Control-Allow-Headers', requestHeaders);
+    res.header('Access-Control-Allow-Credentials', 'true');
     // завершаем обработку запроса и возвращаем результат клиенту
     return res.end();
   }

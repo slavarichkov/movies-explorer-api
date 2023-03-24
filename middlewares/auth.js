@@ -4,6 +4,7 @@ const UNAUTHORIZED = require('../utils/mist/UNAUTHORIZED'); // импортир�
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
+  console.log(req);
   const token = req.cookies.jwt; // взять токен из куки
   let payload; // объявляем payload
 
