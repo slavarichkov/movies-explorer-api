@@ -42,7 +42,7 @@ const validationMovieCreate = celebrate({ // создаёт фильм
 
 const validationMovieDelete = celebrate({ // удаляет сохранённый фильм по id
   params: Joi.object().keys({
-    movieId: Joi.number().required(),
+    movieId: Joi.string().required(),
   }),
 });
 
