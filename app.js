@@ -27,7 +27,7 @@ mongoose.set('strictQuery', true); // в mmongoose v7 параметр авто 
 // подключаемся к mongo и затем к серверу
 mongoose.connect(NODE_ENV === 'production' ? HOST_MONGODB : 'mongodb://127.0.0.1/bitfilmsdb', () => {
   console.log('DB OK');
-  app.listen(NODE_ENV === 'production' ? PORT : 3001, () => {
+  app.listen(NODE_ENV === 'production' ? PORT : 3000, () => {
     console.log(`App listening on port ${PORT}`);
   });
 })
