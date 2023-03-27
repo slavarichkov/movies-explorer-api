@@ -2,7 +2,7 @@
 const allowedCors = [
   'localhost:3001',
   'https://moviesyp.nomoredomains.work',
-  'http://localhost:3001',
+  'http://moviesyp.nomoredomains.work',
 ];
 
 function corsSimple(req, res, next) { // простые CORS-запросы
