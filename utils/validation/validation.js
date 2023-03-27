@@ -31,18 +31,18 @@ const validationMovieCreate = celebrate({ // создаёт фильм
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().pattern(/[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
-    trailerLink: Joi.string().pattern(/[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
+    image: Joi.string().pattern(/[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
+    trailerLink: Joi.string().pattern(/[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().pattern(/[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
+    thumbnail: Joi.string().pattern(/[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/i).required(),
     movieId: Joi.number().required(),
   }),
 });
 
 const validationMovieDelete = celebrate({ // удаляет сохранённый фильм по id
   params: Joi.object().keys({
-    movieId: Joi.number().required(),
+    movieId: Joi.string().required(),
   }),
 });
 

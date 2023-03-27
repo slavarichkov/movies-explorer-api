@@ -40,11 +40,12 @@ app.use(requestLogger); // подключаем логгер запросов
 app.use(helmet());
 app.use(limiter); // ограничивает количество запросов с одного IP-адреса в единицу времени.
 
+app.use(corsSimple); // cors простой
+app.use(corsMultiPart); // cors сложный
+
 // роуты, не требуещие авторизации
 app.post('/signup', validationUserCreate, createUser); // создать пользователя
 app.post('/signin', validationUserSignin, login); // авторизация пользователя
-app.use(corsSimple); // cors простой
-app.use(corsMultiPart); // cors сложный
 
 // защитить роуты ниже авторизацией
 app.use(auth);
