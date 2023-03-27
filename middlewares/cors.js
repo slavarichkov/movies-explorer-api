@@ -1,8 +1,13 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
   'http://moviesyp.nomoredomains.work',
-  'localhost:3001',
   'https://moviesyp.nomoredomains.work',
+  'localhost:3001',
+  'localhost:3001',
+  'http://localhost:3001',
+  'https://localhost:3001',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 function corsSimple(req, res, next) { // простые CORS-запросы
