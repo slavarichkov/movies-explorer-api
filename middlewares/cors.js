@@ -17,7 +17,7 @@ function corsSimple(req, res, next) { // простые CORS-запросы
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', 'true');
   }
-  next();
+  return next();
 }
 
 function corsMultiPart(req, res, next) { // сложные CORS-запросы

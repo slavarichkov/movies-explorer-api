@@ -108,7 +108,7 @@ const login = (req, res, next) => { // получает из запроса по
 };
 
 const logout = (req, res, next) => {
-  res.status(OK).clearCookie('jwt').send({ message: 'cookie cleared' })
+  res.status(OK).clearCookie('jwt')
     .catch((err) => {
       next(err);
     });
